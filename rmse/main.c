@@ -29,6 +29,10 @@ typedef struct {
     int     retval;
 
     // index variables
+    size_t      ocean_time_ref;
+    size_t      eta_rho_ref;
+    size_t	xi_rho_ref;
+
     size_t      ocean_time;
     size_t      eta_rho;
     size_t	xi_rho;
@@ -215,8 +219,8 @@ void calc_rmse(e *E){
 			//		printf("vel = %f, vel_ref = %f\n", E->vel[t][i][j], E->vel_ref[t][i][j]);
 			//		exit(1);
 			//	}
-				if(E->vel[120][i][j] < 500.0){
-					E->rmse[0] += pow(( E->vel[120][i][j] - E->vel_ref[0][i][j]), 2.0);
+				if(E->vel[0][i][j] < 500.0){
+					E->rmse[0] += pow(( E->vel[0][i][j] - E->vel_ref[0][i][j]), 2.0);
 			//		printf("(%d, %d) n = %f, rmse sum = %f\n",i,j, n, E->rmse[t]);
 					n = n + 1.0;
 				}
@@ -248,16 +252,16 @@ int main(int argc, char** argv)
 	if ((E->retval = nc_open(argv[1], NC_NOWRITE, &E->ncid)))
 		ERR(E->retval);
 
-	get_dimension(E, "eta_rho", &E->eta_rho);
-	get_dimension(E, "xi_rho", &E->xi_rho);
-	get_dimension(E, "ocean_time", &E->ocean_time);
+	get_dimension(E, "eta_rho", &E->eta_rho_ref);
+	get_dimension(E, "xi_rho", &E->xi_rho_ref);
+	get_dimension(E, "ocean_time", &E->ocean_time_ref);
 
 
 
-	E->u_ref = malloc3d_double(E->ocean_time+1,E->eta_rho, E->xi_rho);
+	E->u_ref = malloc3d_double(E->ocean_time_ref,E->eta_rho_ref, E->xi_rho_ref);
 	get_field(E,"ubar_eastward", &E->u_ref[0][0][0]);
 
-  E->v_ref = malloc3d_double(E->ocean_time+1,E->eta_rho, E->xi_rho);
+  E->v_ref = malloc3d_double(E->ocean_time_ref,E->eta_rho_ref, E->xi_rho_ref);
   get_field(E,"vbar_northward", &E->v_ref[0][0][0]);
 
 
@@ -265,6 +269,10 @@ int main(int argc, char** argv)
 
 	if ((E->retval = nc_open(argv[2], NC_NOWRITE, &E->ncid)))
     ERR(E->retval);
+
+    get_dimension(E, "eta_rho", &E->eta_rho);
+  	get_dimension(E, "xi_rho", &E->xi_rho);
+  	get_dimension(E, "ocean_time", &E->ocean_time);
 
 	E->u = malloc3d_double(E->ocean_time,E->eta_rho, E->xi_rho);
   get_field(E,"ubar_eastward", &E->u[0][0][0]);
@@ -275,8 +283,8 @@ int main(int argc, char** argv)
 
   nc_close(E->ncid);
 
-	E->vel = malloc3d_double(E->ocean_time,E->eta_rho, E->xi_rho);
-	E->vel_ref = malloc3d_double(E->ocean_time,E->eta_rho, E->xi_rho);
+	E->vel = malloc3d_double(1,E->eta_rho, E->xi_rho);
+	E->vel_ref = malloc3d_double(1,E->eta_rho_ref, E->xi_rho_ref);
 
 	// cal velocity magnitude
 	//for(t=0;t<E->ocean_time;t++){
@@ -284,10 +292,10 @@ int main(int argc, char** argv)
 	    for(j=0;j<E->xi_rho;j++){
 		      if( (E->u[120][i][j]<1000.0) && (E->u_ref[0][i][j]<1000.0) ){
             E->vel_ref[0][i][j] = sqrt(pow(E->u_ref[0][i][j],2.0) + pow(E->v_ref[0][i][j],2.0));
-		          E->vel[120][i][j] = sqrt(pow(E->u[120][i][j],2.0) + pow(E->v[120][i][j],2.0));
+		          E->vel[0][i][j] = sqrt(pow(E->u[120][i][j],2.0) + pow(E->v[120][i][j],2.0));
 		      }
 		      else{
-		          E->vel_ref[0][i][j] = E->vel[120][i][j] = 1001.0;
+		          E->vel_ref[0][i][j] = E->vel[0][i][j] = 1001.0;
 		      }
       }
 	  }
