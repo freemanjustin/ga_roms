@@ -12,7 +12,7 @@ def rank_population(exp_name, generation, population):
 
     # calculate cost function for each model
     for i in range(0,population):
-        rmse_cmd = "cd %s/%04d/04d ; ../../../rmse ../../../vel_ref.nc ocean_his.nc" % (exp_name, generation, population)
+        rmse_cmd = "cd %s/%04d/%04d ; ../../../rmse ../../../vel_ref.nc ocean_his.nc" % (exp_name, generation, i)
         run_cmd(rmse_cmd)
 
     # and rank them
