@@ -238,6 +238,13 @@ int main(int argc, char** argv)
   E = malloc(sizeof(e));
   if(E==NULL) fail("Malloc failed\n");
 
+
+  if(argc < 3){
+    printf("usage: ./rmse [reference velocity] [this model velocity]\n");
+    exit(1);
+  }
+
+
 	if ((E->retval = nc_open(argv[1], NC_NOWRITE, &E->ncid)))
 		ERR(E->retval);
 
