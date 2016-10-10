@@ -23,6 +23,7 @@ from run_cmd import run_cmd
 from init_generation import init_generation
 from init_population import init_population
 from submit_it import submit_it
+from rank_population import rank_population
 
 
 
@@ -52,5 +53,7 @@ submit_it(exp_name, generation, population)
 # evaluate cost function and run genetic algorithm
 # calc_vrms for current generation
 # rank current generation
+rank_population(exp_name, generation, population)
+
 # cross over and mutate to create next generation
 # resubmit this script to run next generation
