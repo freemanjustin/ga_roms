@@ -17,13 +17,15 @@ def rank_population(exp_name, generation, population):
 
     # and rank them
     # read in each rmse file
+    rmse = []
     for i in range(0,population):
         rmse_filename = "%s/%04d/%04d/rmse.txt" % (exp_name, generation, i)
         rmse_file = open(rmse_filename, 'r')
-        #rmse = rmse_file.readlines()
-
         for line in rmse_file: # iterate over each line
-            trash, rmse = line.split() # split it by whitespace
-            rmse = float(rmse) # convert bs from string to float
-            print rmse
+            trash, rmse = line.split() # split by whitespace
+            rmse[i] = float(rmse) # convert from string to float
+
+    for i in range(0,population):
+        print rmse[i]
+        
     return
