@@ -5,10 +5,10 @@ from run_cmd import run_cmd
 
 
 def rank_population(exp_name, generation, population):
-    print "\nRank population:"
-    print "\texperiment = %s" % exp_name
-    print "\tgeneration = %d" % generation
-    print "\tpopulation = %d\n" % population
+    print "\n*** Rank population:"
+    print "\t*** experiment = %s" % exp_name
+    print "\t*** generation = %d" % generation
+    print "\t*** population = %d" % population
 
     # calculate cost function for each model
     for i in range(0,population):
@@ -28,4 +28,5 @@ def rank_population(exp_name, generation, population):
     for i in range(0,population):
         print rmse[i]
 
+    print "*** done rank_population"
     return
