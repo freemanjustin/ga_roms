@@ -18,16 +18,13 @@ import sys, os, posix, commands, math, string
 from time import localtime, strftime, sleep, time, mktime
 from math import floor, ceil
 sys.path.append('./ga_lib')
+import config
 from run_cmd import run_cmd
 from init_generation import init_generation
 from init_population import init_population
+from submit_it import submit_it
 
-# config variables for the ROMS runs
-# roms bin data is where the input text files live
-roms_bin_data = "/short/ep4/jcf548/ga_roms/roms_bin_data/"
 
-# roms static data is where the forcing and bc data is
-roms_static_data = "/short/ep4/jcf548/ga_roms/roms_static_data/"
 
 # Argument variables passed
 
@@ -50,7 +47,7 @@ if generation == 0:
     init_population(exp_name, generation, population)
 
 # run models
-# run_roms()
+submit_it(exp_name, generation, population)
 
 # evaluate cost function and run genetic algorithm
 # calc_vrms for current generation
