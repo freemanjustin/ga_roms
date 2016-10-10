@@ -23,7 +23,7 @@ def rank_population(exp_name, generation, population):
         #rmse = rmse_file.readlines()
 
         for line in rmse_file: # iterate over each line
-        trash, rmse = line.split() # split it by whitespace
-        rmse = float(rmse) # convert bs from string to float
-        print rmse
+            trash, rmse = line.split() # split it by whitespace
+            rmse = float(rmse) # convert bs from string to float
+            print rmse
     return
