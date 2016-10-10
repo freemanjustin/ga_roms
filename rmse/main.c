@@ -205,8 +205,8 @@ void calc_rmse(e *E){
 
 	int	i,j,t;
 	double n;
-	for(t=0;t<E->ocean_time;t++){
-		E->rmse[t] = 0.0;
+	//for(t=0;t<E->ocean_time;t++){
+		E->rmse[0] = 0.0;
 		n = 0.0;
 		for(i=0;i<E->eta_rho;i++){
 			for(j=0;j<E->xi_rho;j++){
@@ -215,16 +215,16 @@ void calc_rmse(e *E){
 			//		printf("vel = %f, vel_ref = %f\n", E->vel[t][i][j], E->vel_ref[t][i][j]);
 			//		exit(1);
 			//	}
-				if(E->vel[t][i][j] < 500.0){
-					E->rmse[t] += pow(( E->vel[t][i][j] - E->vel_ref[t][i][j]), 2.0);
+				if(E->vel[120][i][j] < 500.0){
+					E->rmse[0] += pow(( E->vel[120][i][j] - E->vel_ref[0][i][j]), 2.0);
 			//		printf("(%d, %d) n = %f, rmse sum = %f\n",i,j, n, E->rmse[t]);
 					n = n + 1.0;
 				}
 
 			}
 		}
-		E->rmse[t] = E->rmse[t]/n;
-	}
+		E->rmse[0] = E->rmse[0]/n;
+	//}
 }
 
 
@@ -279,28 +279,28 @@ int main(int argc, char** argv)
 	E->vel_ref = malloc3d_double(E->ocean_time,E->eta_rho, E->xi_rho);
 
 	// cal velocity magnitude
-	for(t=0;t<E->ocean_time;t++){
+	//for(t=0;t<E->ocean_time;t++){
 	  for(i=0;i<E->eta_rho;i++){
 	    for(j=0;j<E->xi_rho;j++){
-		      if( (E->u[t][i][j]<1000.0) && (E->u_ref[t][i][j]<1000.0) ){
-            E->vel_ref[t][i][j] = sqrt(pow(E->u_ref[t][i][j],2.0) + pow(E->v_ref[t][i][j],2.0));
-		          E->vel[t][i][j] = sqrt(pow(E->u[t][i][j],2.0) + pow(E->v[t][i][j],2.0));
+		      if( (E->u[120][i][j]<1000.0) && (E->u_ref[0][i][j]<1000.0) ){
+            E->vel_ref[0][i][j] = sqrt(pow(E->u_ref[0][i][j],2.0) + pow(E->v_ref[0][i][j],2.0));
+		          E->vel[120][i][j] = sqrt(pow(E->u[120][i][j],2.0) + pow(E->v[120][i][j],2.0));
 		      }
 		      else{
-		          E->vel_ref[t][i][j] = E->vel[t][i][j] = 1001.0;
+		          E->vel_ref[0][i][j] = E->vel[120][i][j] = 1001.0;
 		      }
       }
 	  }
-  }
+  //}
 
 
 	// malloc the rmse array
-	E->rmse = malloc(E->ocean_time*sizeof(double));
+	E->rmse = malloc(1*sizeof(double));
 
 	calc_rmse( E );
 
   out = fopen("rmse.txt","w");
-	for(t=0;t<E->ocean_time;t++)
+	for(t=0;t<1;t++)
 		fprintf(out,"%d\t%f\n", t, E->rmse[t]);
   fclose(out);
 
