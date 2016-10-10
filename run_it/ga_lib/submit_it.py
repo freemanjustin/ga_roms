@@ -32,7 +32,7 @@ class Worker(threading.Thread):
 			filename   = threadArgs[0]
 			#get the data structure that holds static information
 			E          = threadArgs[1]
-			print "filename = %s\n" % filename
+			print "in submit: filename = %s\n" % filename
 			#here, we build the job script, submit to queue, wait for return
 			script = []
 
@@ -79,7 +79,7 @@ def submit_it(exp_name, generation, population):
 	#set some global variables: number of workers is the maximum number of jobs
 	#we want to submit to the queue at any one time (up to 20)
 	global WORKERS, MAXAREAS
-	WORKERS = 20
+	WORKERS = 10 
 
 	E = e()
 	jobs = []
@@ -106,3 +106,5 @@ def submit_it(exp_name, generation, population):
 	#once the above is finished, retire the workers
 	for i in range(WORKERS):
 		queue.put(None) # add end-of-queue markers
+
+	queue.join()
