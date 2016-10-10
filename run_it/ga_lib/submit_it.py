@@ -63,7 +63,7 @@ class Worker(threading.Thread):
 			os.chmod(script_name,0774)
 
 			#queue the job
-			CMD = "qsub %s" % (script_name)
+			CMD = "cd %s ; qsub jROMS.pbs" % (filename)
 			result = commands.getstatusoutput(CMD)
 			status = result[0]
 			message = result[1]
