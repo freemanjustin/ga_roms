@@ -254,10 +254,10 @@ int main(int argc, char** argv)
 
 
 
-	E->u_ref = malloc3d_double(E->ocean_time,E->eta_rho, E->xi_rho);
+	E->u_ref = malloc3d_double(E->ocean_time+1,E->eta_rho, E->xi_rho);
 	get_field(E,"ubar_eastward", &E->u_ref[0][0][0]);
 
-  E->v_ref = malloc3d_double(E->ocean_time,E->eta_rho, E->xi_rho);
+  E->v_ref = malloc3d_double(E->ocean_time+1,E->eta_rho, E->xi_rho);
   get_field(E,"vbar_northward", &E->v_ref[0][0][0]);
 
 
