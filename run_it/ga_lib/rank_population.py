@@ -15,7 +15,6 @@ def rank_population(exp_name, generation, population):
         rmse_cmd = "cd %s/%04d/%04d ; ../../../rmse ../../../vel_ref.nc ocean_his.nc" % (exp_name, generation, i)
         run_cmd(rmse_cmd)
 
-    # and rank them
     # read in each rmse file
     rmse = []
     for i in range(0,population):
@@ -27,8 +26,14 @@ def rank_population(exp_name, generation, population):
 
     # sort ascending by rmse value
     rmse.sort(key=lambda x: x[1])
+
+    # and write it out to file in the current generation directory
+    rmse_file_name = "%s/%04d/all_rmse.txt" % (exp_name, generation)
+    rmse_file = open(rmse_file_name, 'w')
     for i in range(0,population):
         print rmse[i]
+        rmse_file.write("%d %f\n" % (rmse[i][0], rmse[i][1]))
+    rmse_file.close()
 
     print "*** done rank_population"
     return
