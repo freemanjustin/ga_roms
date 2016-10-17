@@ -61,7 +61,7 @@ int main( int argc, char *argv[] )
 	p->generations = 200;				// the number of evolutionary cycles
 
 	p->mutation = 0.8;					// the probablility of mutation
-	p->selection_pressure = 0.5;		// the probability of breeding. 0.6 means that only the top 40% get to breed.
+	p->selection_pressure = 0.8;		// the probability of breeding. 0.6 means that only the top 40% get to breed.
 	p->elitism = TRUE;						// fittest from previous generation stays in the population
 
 	// data constraints
