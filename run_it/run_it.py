@@ -24,7 +24,7 @@ from init_generation import init_generation
 from init_population import init_population
 from submit_it import submit_it
 from rank_population import rank_population
-
+from evolve import evolve
 
 # Argument variables passed
 
@@ -71,7 +71,7 @@ script.append("#PBS -l ncpus=1\n")
 script.append("#PBS -l wd\n")
 script.append("#PBS -l walltime=04:00:00\n")
 script.append("#PBS -l mem=60gb\n")
-script.append("#PBS -N reef%d\n", % generation+1)
+script.append("#PBS -N reef%d\n" % (generation+1)) 
 script.append("#PBS -P ep4\n")
 
 script.append("cd ${PBS_O_WORKDIR}\n")
